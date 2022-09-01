@@ -13,7 +13,6 @@ FSManager • Manage your files and directories faster on Linux
 
 [+] Manage a large amount of files and directories at the same time!
 [+] Tool to automate the creation, renaming and deletion of files on Linux systems!
-
 [+] Fully developed in ShellScript!
 
 
