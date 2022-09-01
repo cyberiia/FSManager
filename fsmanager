@@ -1,0 +1,70 @@
+#!/bin/bash
+
+if [ $(whoami) != 'root' ]; then
+	echo -e "\x1B[1;31mNeed root to proceed!\x1B[0m"
+	exit
+fi
+
+NAME=$2
+QTT=$3
+
+case $1 in
+	-cf |--create-files)	
+		if [ $3 != ' ' ]; then
+			for num in $(seq $QTT); do
+				> $NAME$num
+			done
+		else
+			> $NAME
+		fi
+		echo -e "\x1B[1;36mFiles successfully created!\x1B[0m"
+	;;
+	-cd | --create-dirs)
+		if [ $3 != ' ' ]; then
+			for num in $(seq $QTT); do
+				mkdir $NAME$num
+			done
+		else
+			mkdir $NAME
+		fi
+		echo -e "\x1B[1;36mDirectories successfully created!\x1B[0m"
+	;;
+	-rf | --rename-files)
+		OLDNAME=$2
+		NEWNAME=$3
+		[ -f $OLDNAME* ] && mv $OLDNAME $NEWNAME && echo -e "\x1B[1;36mFiles successfully renamed!\x1B[0m" || echo -e "\x1B[1;31mThere are no files with this name.\x1B[0m"
+	;;
+	-rd | --rename-dirs)
+		OLDNAME=$2
+		NEWNAME=$3
+		[ -d $OLDNAME* ] && mv *$OLDNAME* $NEWNAME && echo -e "\x1B[1;36mDirectories successfully renamed!\x1B[0m" || echo -e "\x1B[1;31mThere are no directories with this name.\x1B[0m"
+	;;
+	-df | --delete-files)
+		rm -r *$NAME*
+		echo -e "\x1B[1;36mFiles successfully deleted!\x1B[0m"
+	;;
+	-dd | --delete-dirs)
+		rm -r *$NAME*
+		echo -e "\x1B[1;36mDirectories successfully deleted!\x1B[0m"
+	;;
+	-re | --read-me)
+		cat $PWD/README.txt
+	;;
+	-h | --help)
+		echo -e "\x1B[1;37m\nUsage: fsmanager [OPTION]... FILE_NAME... QUANTITY...\x1B[0m\n"
+		echo -e "+*+ Manage a large amount of FILES and DIRECTORIES at the same time."
+		echo -e "+*+ Tool to automate the creation, renaming and deletion of files on Linux systems!"
+		echo -e "+*+ 1st parameter [OPTION] | 2nd parameter [NAME] | 3rd parameter [QUANTITY]\n"
+		echo -e "  -cf, --create-files    Creates files with the same beginning"
+		echo -e "  -cd, --create-dirs     Creates directories with the same beginning"
+		echo -e "  -rf, --rename-files    Rename files with the same beginning"
+		echo -e "  -rd, --rename-dirs     Rename directories with the same beginning"
+		echo -e "  -df, --delete-files    Delete files with the same beginning"
+		echo -e "  -dd, --delete-dirs     Delete directories with the same beginning"
+		echo -e "  -re, --read-me         Display README.txt file"
+		echo -e "   -h, --help            Display this help message\n"
+	;;
+	*)
+		echo -e "\x1B[1;31mUnknown Parameter! Run --help to get help.\x1B[0m"
+	;;
+esac
