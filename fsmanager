@@ -9,7 +9,7 @@ NAME=$2
 QTT=$3
 
 case $1 in
-	-cf |--create-files)	
+	-cf | --create-files)	
 		if [ $3 != ' ' ]; then
 			for num in $(seq $QTT); do
 				> $NAME$num
